@@ -1,0 +1,11 @@
+# Django #
+*.log
+*.pot
+*.pyc
+pycache
+
+.DS_Store
+
+*.idea/
+venv/
+**/migrations/
