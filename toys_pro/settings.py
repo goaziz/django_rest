@@ -35,9 +35,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # custom apps
     'toys',
     'drones',
+
+    # 3rd party apps
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
 ]
 
@@ -74,6 +78,7 @@ WSGI_APPLICATION = 'toys_pro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -84,6 +89,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'drones.custompagination.LimitOffsetPaginationUpperBond',
@@ -98,7 +104,22 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '300/hour',
+        'user': '200/hour',
+        'drones': '100/hour',
+        'pilots': '150/hour',
+    },
+
+    'DEFAULT_VERSIONING_CLASS':
+        'rest_framework.versioning.NamespaceVersioning',
 
 }
 
